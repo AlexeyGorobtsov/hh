@@ -1,28 +1,50 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            error: null,
+            isLoaded: false,
+            jobs: []
+        }
+    }
+
+    componentDidMount() {
+        fetch('https://api.hh.ru/vacancies')
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        isLoaded: true,
+                        jobs: result
+                    })
+                },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+                }
+            )
+    }
+
+    render() {
+        const { error, isLoaded, jobs } = this.state;
+        if (error) {
+            return <div>Error: { error.message }</div>
+        } else if (!isLoaded) {
+            return <div>Loading...</div>
+        } else {
+            console.log(jobs)
+        }
+
+        return (
+            <div className="App">
+
+            </div>
+        );
+    }
 }
 
 export default App;
