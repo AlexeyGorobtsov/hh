@@ -1,5 +1,4 @@
 import React from 'react';
-import {JobsTable} from "./JobsTable/JobsTable";
 import {FilterableJobsTable} from "./FilterableJobsTable/FilterableJobsTable";
 
 class App extends React.Component {

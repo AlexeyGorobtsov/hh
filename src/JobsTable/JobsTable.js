@@ -2,12 +2,31 @@ import React from 'react';
 import {JobsRow} from '../JobsRow/JobsRow';
 
 export class JobsTable extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const rows= [];
+        const data = [];
+        const filterText = this.props.filterText;
+        this.props.jobs.forEach(job => {
+            data.push({
+                id: job.id,
+                areaName: job.area.name,
+                name: job.name,
+                employerName: job.employerName,
+                published_at: job.published_at,
+                snippetRequirement: job.snippet.requirement,
+            });
+        });
+        data.forEach((item, index) => {
+            if(Object.values(item).join('').indexOf(filterText) === -1) {
+                return;
+            }
+            rows.push(<JobsRow
+                key={item.id}
+                job={item}
+                count = {++index}
+            />);
+        });
         return (
             <table>
                 <thead>
@@ -21,12 +40,6 @@ export class JobsTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.jobs.forEach((job) => {
-                        rows.push(<JobsRow
-                            key={job.id}
-                            job={job}
-                        />);
-                    })}
                     {rows}
                 </tbody>
             </table>
