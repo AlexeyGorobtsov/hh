@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {JobsTable} from "./JobsTable/JobsTable";
+import {FilterableJobsTable} from "./FilterableJobsTable/FilterableJobsTable";
 
-class App extends Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
-            jobs: []
-        }
+            items: []
+        };
     }
 
     componentDidMount() {
@@ -17,33 +19,31 @@ class App extends Component {
                 (result) => {
                     this.setState({
                         isLoaded: true,
-                        jobs: result
-                    })
+                        items: result
+                    });
                 },
                 (error) => {
                     this.setState({
                         isLoaded: true,
                         error
-                    })
+                    });
                 }
-            )
+            );
     }
 
     render() {
-        const { error, isLoaded, jobs } = this.state;
+        const { error, isLoaded} = this.state;
         if (error) {
-            return <div>Error: { error.message }</div>
+            return <div>Error: { error.message }</div>;
         } else if (!isLoaded) {
-            return <div>Loading...</div>
+            return <div>Loading...</div>;
         } else {
-            console.log(jobs)
+            return (
+                <div className="App">
+                    <FilterableJobsTable jobs={this.state.items.items} />
+                </div>
+            );
         }
-
-        return (
-            <div className="App">
-
-            </div>
-        );
     }
 }
 
