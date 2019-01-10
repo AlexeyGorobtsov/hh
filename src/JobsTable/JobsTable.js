@@ -18,7 +18,7 @@ export class JobsTable extends React.Component {
             });
         });
         data.forEach((item, index) => {
-            if(Object.values(item).join('').indexOf(filterText) === -1) {
+            if(Object.values(item).join('').toLowerCase().indexOf(filterText) === -1) {
                 return;
             }
             rows.push(<JobsRow
